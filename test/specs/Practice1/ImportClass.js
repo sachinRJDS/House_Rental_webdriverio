@@ -1,0 +1,1 @@
+import homepage from "C:/Users/mkits/OneDrive/Desktop/House_Rental_webdriverio/test/pageobjects/House_Rental_POM/"
