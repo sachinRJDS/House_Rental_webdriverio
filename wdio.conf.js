@@ -24,14 +24,18 @@ export const config = {
     // will be called from there.
     //
     specs: [
-       // './test/specs/**/*.js'
-        './test/specs/House_Rental_POM/*.js'
+       './test/specs/**/*.js'
+    //    './test/specs/House_Rental_POM/*.js'
     
     ],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
+    suites:{
+        regression:['./test/specs/House_Rental_POM/ComplaintInPOM.js','./test/specs/House_Rental_POM/RegisterHomePOM.js'],
+        smoke:['./test/specs/House_Rental_POM/RegisterUserToApplicationPOM.js','./test/specs/House_Rental_POM/UpdateRegisteredHomePOM.js']
+    },
     //
     // ============
     // Capabilities
@@ -56,16 +60,16 @@ export const config = {
     //
     capabilities: [{
         browserName: 'chrome',
-        maxInstances: 1
+         maxInstances:4
     },
-    {
-        browserName: 'firefox',
-        maxInstances: 1
-    },
-    {
-        browserName: 'Microsoftedge',
-        maxInstances: 1
-    }
+    // {
+    //     browserName: 'firefox',
+    //     maxInstances: 1
+    // },
+    // {
+    //     browserName: 'MicrosoftEdge',
+    //     maxInstances:1
+    // }
 ],
 
     //
@@ -115,7 +119,7 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['selenium-standalone'],//chromedriver
+    services: ['chromedriver'],//chromedriver//selenium-standalone
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -138,6 +142,11 @@ export const config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
+    reporters: [['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
 
     
     //
@@ -242,8 +251,11 @@ export const config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest:async function(test, context, { error, result, duration, passed, retries }) {
+        if(error){
+            await browser.takeScreenshot()
+        }
+    },
 
 
     /**
