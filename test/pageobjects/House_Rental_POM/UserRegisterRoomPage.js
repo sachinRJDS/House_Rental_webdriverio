@@ -1,3 +1,4 @@
+import { expect } from "chai"
 class UserRegisterRoomPage{
     async fullname(fullname){
         await $("#fullname").setValue(fullname)
@@ -24,8 +25,8 @@ async country(country){
             await $("#city").setValue(city)
 
     }
-    async rent(rent){
-        await $("#rent").setValue(rent)
+    async rent(rents){
+        await $("#rent").addValue("rent")
     }
     async sale(sale){
         await $("#sale").setValue(sale)
@@ -58,11 +59,13 @@ async country(country){
     async verifySuccessfullMessage(){
         var success1="Registration successfull. Thank you"
         var success=await browser.$("//h2[text()='Register Room']/preceding-sibling::div").getText()
-        if(success==success1){
-            console.log("Registration successfull. Thank you");
-        }else{
-            console.log("Entered data is already exist");
-        }
+        expect(success).to.be.equal(success1)
+        console.log("Registration successfull. Thank you");
+        // if(success==success1){
+        //     console.log("Registration successfull. Thank you");
+        // }else{
+        //     console.log("Entered data is already exist");
+        // }
     }
 }
 export default new UserRegisterRoomPage()

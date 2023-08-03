@@ -8,39 +8,61 @@ import SearchPage from "../../pageobjects/House_Rental_POM/SearchPage.js"
 import SearchListOfApartPage from "../../pageobjects/House_Rental_POM/SearchListOfApartPage.js"
 import AdminHomePage from "../../pageobjects/House_Rental_POM/AdminHomePage.js"
 import AdminListOfApartPage from "../../pageobjects/House_Rental_POM/AdminListOfApartPage.js"
+import ExcelUtility1 from "../../houserental.libraries/ExcelUtility1.js"
+import LoginPage from "../../pageobjects/House_Rental_POM/LoginPage.js"
 import UserEditRegisterRoomPage from "../../pageobjects/House_Rental_POM/UserEditRegisterRoomPage.js"
 describe("RegisterHome1",async()=>{
     it("testRegisterHome",async()=>{
 
-        //Enter the URL
-        await browser.url("http://rmgtestingserver/domain/House_Rental_Application/")
+        var URL=await ExcelUtility1.getUrl()
+        var USERNAME=await ExcelUtility1.getUserName()
+        var PASSWORD=await ExcelUtility1.getUserPassword()
+
+        //reading the random number
+        var ran=RandomNo.randomNo()
+        var mobile=RandomNo.mobileno()
+        
+        //enter the url
+        await browser.url(URL)
         await browser.maximizeWindow()
+        
+        //click on login button 
         await AppliHomePage.loginTab.click()
 
-        //Login to application
-        await Loginpage.loginToApplication("sachinraj","rjds123")
+        //login to application
+        await LoginPage.loginToApplication(USERNAME,PASSWORD)
 
-        //click on register tab
+        //click on register tab and register the home
         await UserHomePage.registerTab.click()
 
-        //Enter the all the mandatiry fields
-        var ran=RandomNo.randomNo()
-        var mobileno=RandomNo.mobileno()
-        var cname="Prajwal"+ran
-        await UserRegisterRoomPage.fullname(cname)
+        //reading the home register data from the excel
+        let fullname=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","FullName")+ran
+        let mobileno=mobile
+        let emailid=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Email_ID")+ran
+        let houseno=ran
+        let availableroom=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Available_Rooms")
+        let country=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Country")
+        let state=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","State")
+        let city=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","City")
+        let rent=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Rent")
+        let deposit=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Deposit")+ran
+        let address=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_02","RegisterRoom","Address")+ran
+         
+        //enter the all the mandatory fields
+        await UserRegisterRoomPage.fullname(fullname)
         await UserRegisterRoomPage.mobileNO(mobileno)
-        await UserRegisterRoomPage.emailID("prajwal@gmail.com"+ran)
-        await UserRegisterRoomPage.houseNO(ran)
-        await UserRegisterRoomPage.availableRooms("2bhk")
-        await UserRegisterRoomPage.country("india")
-        await UserRegisterRoomPage.state("karnataka")
-        await UserRegisterRoomPage.city("bangalore")
-        await UserRegisterRoomPage.rent("rent")
-        await UserRegisterRoomPage.deposit("500000")
+        await UserRegisterRoomPage.emailID(emailid)
+        await UserRegisterRoomPage.houseNO(houseno)
+        await UserRegisterRoomPage.availableRooms(availableroom)
+        await UserRegisterRoomPage.country(country)
+        await UserRegisterRoomPage.state(state)
+        await UserRegisterRoomPage.city(city)
+        await UserRegisterRoomPage.rent(rent)
+        await UserRegisterRoomPage.deposit(deposit)
         await UserRegisterRoomPage.description("Nothing")
-        await UserRegisterRoomPage.address("JP Nagar")
+        await UserRegisterRoomPage.address(address)
         await UserRegisterRoomPage.vacantOROccupied("Vacant")
-        await UserRegisterRoomPage.image("C:/Users/mkits/OneDrive/Pictures/Screenshots/Screenshot (1).png")
+        await UserRegisterRoomPage.image("C:/Users/mkits/OneDrive/Pictures/Screenshots/Screenshot_20230215_103211.png")
         await UserRegisterRoomPage.submitBtn()
 
         //verify registration successfull message
@@ -50,19 +72,26 @@ describe("RegisterHome1",async()=>{
         await UserHomePage.updateTab.click()
 
         //click on requried home edit button
-        await UserListOfApartmenetPage.editButton(cname)
+        await UserListOfApartmenetPage.editButton(fullname)
+
+        //reading the updated data from the excel
+        var accommondation=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_01","Accommondation","Accommondation")
+        var description=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_01","Accommondation","Description")
+        var landmark=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_01","Accommondation","Other")
+        var other=await ExcelUtility1.getExcelDataBasedOnTestcaseID("tc_01","Accommondation","Landmark")
+
 
         //enter the all the mandatory fields
-        await UserEditRegisterRoomPage.accommondation("freewater")
-        await UserEditRegisterRoomPage.description("====")
-        await UserEditRegisterRoomPage.landmark("Qspider")
-        await UserEditRegisterRoomPage.other("$$$$$")
+        await UserEditRegisterRoomPage.accommondation(accommondation)
+        await UserEditRegisterRoomPage.description(description)
+        await UserEditRegisterRoomPage.landmark(landmark)
+        await UserEditRegisterRoomPage.other(other)
         await UserEditRegisterRoomPage.submitBtn()
 
         //verify in updated home in registered rooms
         await UserHomePage.homeTab.click()
         await UserHomePage.registeredRoomLink.click()
-        await UserListOfApartmenetPage.verifyUpdatedHome(cname)
+        await UserListOfApartmenetPage.verifyUpdatedHome(fullname,accommondation)
 
         //click on logout tab
         await UserHomePage.logoutTab.click()
@@ -71,27 +100,29 @@ describe("RegisterHome1",async()=>{
         await AppliHomePage.searcghTab.click()
 
         //enter the searching keys
-        await SearchPage.searchRooms("2bhk","JP Nagar")
+        await SearchPage.searchRooms(availableroom,address)
 
         //verify updated register home
-        await SearchListOfApartPage.verifyRegisteredHomeInSearchPage(cname)
+        await SearchListOfApartPage.verifyRegisteredHomeInSearchPage(fullname,accommondation)
 
         //click on login tab
         await AppliHomePage.loginTab.click()
 
         //login as a admin
-        await Loginpage.loginToApplication("admin","admin")
+        var adminUN=await ExcelUtility1.getAdminUserName()
+        var adminPW=await ExcelUtility1.getAdminPassword()
+        await Loginpage.loginToApplication(adminUN,adminPW)
 
         //click on rooms for rent link and verify updated home
          await AdminHomePage.registeredRoomLink.click()
-         await AdminListOfApartPage.verifyUpdatedHomeInAdminPage(cname)
+         await AdminListOfApartPage.verifyUpdatedHomeInAdminPage(fullname,accommondation)
 
           //click on details/update tab and verify the user registered home
           var details=await AdminHomePage.updateTab
           await details.scrollIntoView({behavior:"smooth"})
           await details.isClickable()
           await AdminHomePage.updateTab.click()
-          await AdminListOfApartPage.verifyUpdatedHomeInAdminPage(cname)
+          await AdminListOfApartPage.verifyUpdatedHomeInAdminPage(fullname,accommondation)
 
           //logout
           await AdminHomePage.logoutTab.click()

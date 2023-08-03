@@ -11,9 +11,10 @@ class SearchPage{
 
     //business libraries
     async searchRooms(room,loc,){
+        
         await this.availableRoom.setValue(room)
         await this.location.setValue(loc)
-        await this.searchBtn.waitForDisplayed()
+        await this.searchBtn.waitForExist()
         await this.searchBtn.click()
     }
 }

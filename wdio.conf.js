@@ -24,8 +24,8 @@ export const config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
-       // './test/specs/House_Rental_POM/*.js'
+       // './test/specs/**/*.js'
+        './test/specs/House_Rental_POM/*.js'
     
     ],
     // Patterns to exclude.
@@ -55,8 +55,18 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
-    }],
+        browserName: 'chrome',
+        maxInstances: 1
+    },
+    {
+        browserName: 'firefox',
+        maxInstances: 1
+    },
+    {
+        browserName: 'Microsoftedge',
+        maxInstances: 1
+    }
+],
 
     //
     // ===================
@@ -105,7 +115,7 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+    services: ['selenium-standalone'],//chromedriver
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber

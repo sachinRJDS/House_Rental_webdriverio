@@ -1,3 +1,4 @@
+import { expect } from "chai"
 class UserComplaintPage{
     get apartmentNumber(){
         return $("#name")
@@ -15,11 +16,13 @@ class UserComplaintPage{
     async verifySentSuccessfullMeassage(){
        var sent="Sent Successfully"
        var sent1=await this.successfullMessage.getText()
-       if(sent1==sent){
-        console.log("Sent Successfully");
-       }else{
-        console.log("not send");
-       }
+       expect(sent1).to.be.equal(sent)
+       console.log("Sent Successfully");
+    //    if(sent1==sent){
+    //     console.log("Sent Successfully");
+    //    }else{
+    //     console.log("not send");
+    //    }
     }
 
     //business libraries
