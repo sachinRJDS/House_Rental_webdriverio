@@ -1,0 +1,9 @@
+describe("newclass",async()=>{
+    it("testNewClass",async()=>{
+        console.log('hi');
+        browser.setTimeout({
+            implicit:5000
+        })
+        console.log("hello");
+    })
+})

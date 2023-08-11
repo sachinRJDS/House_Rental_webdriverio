@@ -16,7 +16,8 @@
     "wdio": "wdio run ./wdio.conf.js",
     "complaint": "npx wdio run ./wdio.conf.js --spec test/specs/House_Rental_POM/ComplaintInPOM.js, --spec test/specs/House_Rental_POM/UpdateRegisteredHomePOM.js",
     "smoke": "npx wdio run ./wdio.conf.js --suite smoke",
-    "regression":"npx wdio run ./wdio.conf.js --suite regression"
+    "regression":"npx wdio run ./wdio.conf.js --suite regression",
+    "links":"npx wdio run ./wdio.conf.js --spec test/specs/AllElementsPractice/AllLinks.js"
   },
   "dependencies": {
     "allure-commandline": "^2.23.1",

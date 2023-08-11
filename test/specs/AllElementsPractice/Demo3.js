@@ -1,3 +1,4 @@
+import { assert, expect } from "chai"
 describe("demo3",async()=>{
 it("testDemo3",async()=>{
     await browser.url("https://demo.actitime.com")
@@ -9,6 +10,7 @@ it("testDemo3",async()=>{
     await browser.newWindow("https://www.flipkart.com")  
     await browser.pause(5000)
 
-    
+
+    assert.equal()
 })
 })

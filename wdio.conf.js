@@ -170,6 +170,7 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     // onPrepare: function (config, capabilities) {
+    //     console.log("=========================================================");
     // },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
@@ -180,8 +181,9 @@ export const config = {
      * @param  {object} args     object that will be merged with the main configuration once worker is initialized
      * @param  {object} execArgv list of string arguments passed to the worker process
      */
-    // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-    // },
+    onWorkerStart: function (cid, caps, specs, args, execArgv) {
+        console.log("#########################################################");
+    },
     /**
      * Gets executed just after a worker process has exited.
      * @param  {string} cid      capability id (e.g 0-0)
@@ -190,6 +192,7 @@ export const config = {
      * @param  {number} retries  number of retries used
      */
     // onWorkerEnd: function (cid, exitCode, specs, retries) {
+    //     console.log("=========================================================");
     // },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
@@ -200,6 +203,7 @@ export const config = {
      * @param {string} cid worker id (e.g. 0-0)
      */
     // beforeSession: function (config, capabilities, specs, cid) {
+    //     console.log("=========================================================");
     // },
     /**
      * Gets executed before test execution begins. At this point you can access to all global

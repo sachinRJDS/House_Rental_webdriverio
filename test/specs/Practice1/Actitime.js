@@ -9,5 +9,7 @@ describe('actitime.com',async()=>{
         await $("//div[text()='Login ']").click();//xpath expression
         //await $("=Login ").click()//text()
         console.log((browser.getTitle()));
+
+        (await $("//div[text()='Login ']"))
     })
 })

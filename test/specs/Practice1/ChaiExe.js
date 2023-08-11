@@ -12,5 +12,7 @@ describe("newChai",async()=>{
        // expect(10).to.be.greaterThan(20)//expected 10 to be above 20
        //expect(21).to.be.greaterThanOrEqual(22)//expected 21 to be at least 22
       expect(10).to.be.lessThan(5)// expected 10 to be below 5
+      var a=true
+      expect(a).to.be.true(false)
     })
 })
